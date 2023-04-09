@@ -13,15 +13,15 @@ const_focus_plus_p = "00800000"
 const_focus_minus_p = "01000000"
 
 #commands PELCO-D
-const_stop_d = ""
-const_up_d = ""
-const_down_d = ""
-const_left_d = ""
-const_right_d = ""
-const_focus_plus_d = ""
-const_focus_minus_d = ""
-const_zoom_plus_d = ""
-const_zoom_minus_d = ""
+const_stop_d = "00000000"
+const_up_d = "00083F3F"
+const_down_d = "00103F3F"
+const_left_d = "00043F3F"
+const_right_d = "00023F3F"
+const_focus_plus_d = "00200000"
+const_focus_minus_d = "00400000"
+const_zoom_plus_d = "00800000"
+const_zoom_minus_d = "01000000"
 
 def pelco_p_data(address, command):
     address = str(address)
@@ -33,6 +33,15 @@ def pelco_p_data(address, command):
     data = start_byte + address + command + af_byte + checksum
     return data
 
+
+def pelco_d_data(address, command):
+    address = str(address)
+    command = str(command)
+    start_byte = "FF"
+    checksum = "00"
+    #data = "A0" + "ADDRESS" + "Data 1 to 4" + "xOR sum of Bytes 1 to 7"
+    data = start_byte + address + command + checksum
+    return data
 
 def write_command(port, baud, data, data_stop):
     ser = serial.Serial(port=port, baudrate=baud)
