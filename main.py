@@ -25,7 +25,6 @@ class Example(QWidget):
         zoom_minus.move(30, 240)
         zoom_minus.clicked.connect(self.zoom_minus_action)
 
-
         self.nameLabel5 = QLabel(self)
         self.nameLabel5.setText('Focus')
         self.nameLabel5.move(160, 160)
@@ -117,7 +116,7 @@ class Example(QWidget):
 
     def checkbox_p(self, checked):
         pass
-    
+
     def lines(self):
         val1 = self.line1.text()
         val2 = self.line2.text()
@@ -131,17 +130,16 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
         zoom_plus(port, baud, address, protocol)
-
 
     def zoom_minus_action(self):
         val_mas = self.lines()
@@ -149,12 +147,12 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
@@ -166,12 +164,12 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
@@ -183,12 +181,12 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
@@ -200,12 +198,12 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
@@ -217,12 +215,12 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
             pass
@@ -234,15 +232,15 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
-            pass        
+            pass
         left(port, baud, address, protocol)
 
     def right_action(self):
@@ -251,17 +249,17 @@ class Example(QWidget):
         baud = val_mas[1]
         address = val_mas[2]
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
-            pass 
+            pass
         right(port, baud, address, protocol)
-    
+
     def send_action(self):
         val_mas = self.lines()
         port = val_mas[0]
@@ -269,17 +267,17 @@ class Example(QWidget):
         address = val_mas[2]
         command = self.line4.text()
         val = self.checkbox.isChecked()
-        if val == True:
+        if val is True:
             protocol = "d"
         else:
-            pass 
+            pass
         val2 = self.checkbox2.isChecked()
-        if val2 == True:
+        if val2 is True:
             protocol = "p"
         else:
-            pass 
+            pass
         random_command(port, baud, address, protocol, command)
-        
+
 
 def main():
     app = QApplication(sys.argv)

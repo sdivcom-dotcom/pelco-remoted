@@ -23,13 +23,13 @@ const_focus_minus_d = "00400000"
 const_zoom_plus_d = "00800000"
 const_zoom_minus_d = "01000000"
 
+
 def pelco_p_data(address, command):
     address = str(address)
     command = str(command)
     start_byte = "A0"
     af_byte = "AF"
     checksum = "00"
-    #data = "A0" + "ADDRESS" + "Data 1 to 4" + "ETX" + "xOR sum of Bytes 1 to 7"
     data = start_byte + address + command + af_byte + checksum
     return data
 
@@ -39,9 +39,9 @@ def pelco_d_data(address, command):
     command = str(command)
     start_byte = "FF"
     checksum = "00"
-    #data = "A0" + "ADDRESS" + "Data 1 to 4" + "xOR sum of Bytes 1 to 7"
     data = start_byte + address + command + checksum
     return data
+
 
 def write_command(port, baud, data, data_stop):
     ser = serial.Serial(port=port, baudrate=baud)
@@ -147,6 +147,7 @@ def zoom_minus(port, baud, address, procotol):
     else:
         pass
     write_command(port, baud, data, data_stop)
+
 
 def focus_plus(port, baud, address, procotol):
     if procotol == "p":
