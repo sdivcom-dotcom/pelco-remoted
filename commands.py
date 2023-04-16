@@ -23,6 +23,8 @@ const_focus_minus_d = "00400000"
 const_zoom_plus_d = "00800000"
 const_zoom_minus_d = "01000000"
 
+delay_run = 0.37
+delay_optic = 0.05
 
 def pelco_p_data(address, command):
     address = str(address)
@@ -31,6 +33,7 @@ def pelco_p_data(address, command):
     af_byte = "AF"
     checksum = "00"
     data = start_byte + address + command + af_byte + checksum
+    #print(data)
     return data
 
 
@@ -43,17 +46,18 @@ def pelco_d_data(address, command):
     return data
 
 
-def write_command(port, baud, data, data_stop):
+def write_command(port, baud, data, data_stop, delay):
     ser = serial.Serial(port=port, baudrate=baud)
     data_hex = bytes.fromhex(data)
     data_stop_hex = bytes.fromhex(data_stop)
     ser.write(data_hex)
-    time.sleep(0.4)
+    time.sleep(delay)
     ser.write(data_stop_hex)
     ser.close()
 
 
 def up(port, baud, address, procotol):
+    delay = delay_run
     if procotol == "p":
         command_stop = const_stop_p
         command_up = const_up_p
@@ -66,10 +70,11 @@ def up(port, baud, address, procotol):
         data = pelco_d_data(address, command_up)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def down(port, baud, address, procotol):
+    delay = delay_run
     if procotol == "p":
         command_stop = const_stop_p
         command_down = const_down_p
@@ -82,10 +87,11 @@ def down(port, baud, address, procotol):
         data = pelco_d_data(address, command_down)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def left(port, baud, address, procotol):
+    delay = delay_run
     if procotol == "p":
         command_stop = const_stop_p
         command_left = const_left_p
@@ -98,10 +104,11 @@ def left(port, baud, address, procotol):
         data = pelco_d_data(address, command_left)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def right(port, baud, address, procotol):
+    delay = delay_run
     if procotol == "p":
         command_stop = const_stop_p
         command_right = const_right_p
@@ -114,10 +121,11 @@ def right(port, baud, address, procotol):
         data = pelco_d_data(address, command_right)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def zoom_plus(port, baud, address, procotol):
+    delay = delay_optic
     if procotol == "p":
         command_stop = const_stop_p
         command_zoom_plus = const_zoom_plus_p
@@ -130,10 +138,11 @@ def zoom_plus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_plus)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def zoom_minus(port, baud, address, procotol):
+    delay = delay_optic
     if procotol == "p":
         command_stop = const_stop_p
         command_zoom_minus = const_zoom_minus_p
@@ -146,10 +155,11 @@ def zoom_minus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_minus)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def focus_plus(port, baud, address, procotol):
+    delay = delay_optic
     if procotol == "p":
         command_stop = const_stop_p
         command_focus_plus = const_focus_plus_p
@@ -162,10 +172,11 @@ def focus_plus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_plus)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def focus_minus(port, baud, address, procotol):
+    delay = delay_optic
     if procotol == "p":
         command_stop = const_stop_p
         command_focus_minus = const_focus_minus_p
@@ -178,10 +189,11 @@ def focus_minus(port, baud, address, procotol):
         data = pelco_d_data(address, command_focus_minus)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
 
 
 def random_command(port, baud, address, protocol, command):
+    delay = 0.5
     if procotol == "p":
         command_stop = const_stop_p
         data_stop = pelco_p_data(address, command_stop)
@@ -192,4 +204,4 @@ def random_command(port, baud, address, protocol, command):
         data = pelco_d_data(address, command)
     else:
         pass
-    write_command(port, baud, data, data_stop)
+    write_command(port, baud, data, data_stop, delay)
