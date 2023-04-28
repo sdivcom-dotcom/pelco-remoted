@@ -9,7 +9,7 @@ motionTime = []
  
 dataFrame = panda.DataFrame(columns = ["Initial", "Final"]) 
 
-stream_url = "rtsp://atwk:ea33ak@192.168.11.50"
+stream_url = "rtsp://atwk:ea33ak@192.168.11.51"
 cap = cv2.VideoCapture(stream_url)
 
 frame_count = 0
