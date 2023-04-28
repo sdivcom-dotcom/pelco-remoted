@@ -1,6 +1,8 @@
 import serial
 import time
 
+import paramiko
+
 #commands PELCO-P
 const_stop_p = "00000000"
 const_up_p = "00080020"
@@ -25,6 +27,7 @@ const_zoom_minus_d = "01000000"
 
 delay_run = 0.37
 delay_optic = 0.05
+ssh_port = 22
 
 def pelco_p_data(address, command):
     address = str(address)
@@ -46,7 +49,7 @@ def pelco_d_data(address, command):
     return data
 
 
-def write_command(port, baud, data, data_stop, delay):
+def write_com_command(port, baud, data, data_stop, delay):
     ser = serial.Serial(port=port, baudrate=baud)
     data_hex = bytes.fromhex(data)
     data_stop_hex = bytes.fromhex(data_stop)
@@ -55,9 +58,27 @@ def write_command(port, baud, data, data_stop, delay):
     ser.write(data_stop_hex)
     ser.close()
 
+ 
+def write_ssh_command(address, user, password, command, procotol, cam_address):
+    ssh_command = "python3 console.py -pr " + procotol + " -sa " + address + " -su " + user + " -sp " + password + " -t ssh " + " -c " + command
+    print(ssh_command)
+    try:
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(address, ssh_port, user, password)
+        stdin, stdout, stderr = ssh.exec_command(ssh_command)
+        stdin.close()
+        lines = stdout.readlines()
+        print(lines,type(lines))
+    except Exception as e:
+        print("Error: ", e)
+    finally:
+        ssh.close()
 
-def up(port, baud, address, procotol):
+
+def up(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_run
+    ssh_command = "up"
     if procotol == "p":
         command_stop = const_stop_p
         command_up = const_up_p
@@ -70,11 +91,18 @@ def up(port, baud, address, procotol):
         data = pelco_d_data(address, command_up)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def down(port, baud, address, procotol):
+
+def down(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_run
+    ssh_command = "down"
     if procotol == "p":
         command_stop = const_stop_p
         command_down = const_down_p
@@ -87,11 +115,17 @@ def down(port, baud, address, procotol):
         data = pelco_d_data(address, command_down)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def left(port, baud, address, procotol):
+def left(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_run
+    ssh_command = "left"
     if procotol == "p":
         command_stop = const_stop_p
         command_left = const_left_p
@@ -104,11 +138,18 @@ def left(port, baud, address, procotol):
         data = pelco_d_data(address, command_left)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def right(port, baud, address, procotol):
+
+def right(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_run
+    ssh_command = "right"
     if procotol == "p":
         command_stop = const_stop_p
         command_right = const_right_p
@@ -121,11 +162,18 @@ def right(port, baud, address, procotol):
         data = pelco_d_data(address, command_right)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def zoom_plus(port, baud, address, procotol):
+
+def zoom_plus(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_optic
+    ssh_command = "zoom_plus"
     if procotol == "p":
         command_stop = const_stop_p
         command_zoom_plus = const_zoom_plus_p
@@ -138,11 +186,18 @@ def zoom_plus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_plus)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def zoom_minus(port, baud, address, procotol):
+
+def zoom_minus(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_optic
+    ssh_command = "zoom_minus"
     if procotol == "p":
         command_stop = const_stop_p
         command_zoom_minus = const_zoom_minus_p
@@ -155,11 +210,18 @@ def zoom_minus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_minus)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def focus_plus(port, baud, address, procotol):
+
+def focus_plus(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_optic
+    ssh_command = "focus_plus"
     if procotol == "p":
         command_stop = const_stop_p
         command_focus_plus = const_focus_plus_p
@@ -172,11 +234,19 @@ def focus_plus(port, baud, address, procotol):
         data = pelco_d_data(address, command_zoom_plus)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        transport == "com"
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def focus_minus(port, baud, address, procotol):
+
+def focus_minus(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport):
     delay = delay_optic
+    ssh_command = "focus_minus"
     if procotol == "p":
         command_stop = const_stop_p
         command_focus_minus = const_focus_minus_p
@@ -189,10 +259,16 @@ def focus_minus(port, baud, address, procotol):
         data = pelco_d_data(address, command_focus_minus)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(port, baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, ssh_command, procotol, address)
+    else:
+        pass
 
 
-def random_command(port, baud, address, protocol, command):
+
+def random_command(com_port, com_baud, address, protocol, command, ssh_address, ssh_user, ssh_password, transport):
     delay = 0.5
     if procotol == "p":
         command_stop = const_stop_p
@@ -204,4 +280,10 @@ def random_command(port, baud, address, protocol, command):
         data = pelco_d_data(address, command)
     else:
         pass
-    write_command(port, baud, data, data_stop, delay)
+    if transport == "com":
+        write_com_command(com_port, com_baud, data, data_stop, delay)
+    elif transport == "ssh":
+        write_ssh_command(ssh_address, ssh_user, ssh_password, command, procotol, address)
+    else:
+        pass
+
