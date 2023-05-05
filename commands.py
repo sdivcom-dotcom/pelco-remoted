@@ -60,7 +60,7 @@ def write_com_command(port, baud, data, data_stop, delay):
 
  
 def write_ssh_command(address, user, password, command, procotol, cam_address):
-    ssh_command = "python3 console.py -pr " + procotol + " -sa " + address + " -su " + user + " -sp " + password + " -t ssh " + " -c " + command
+    ssh_command = "python3 pelco-remoted/console.py -pr " + procotol + " -t com " + " -c " + command
     print(ssh_command)
     try:
         ssh = paramiko.SSHClient()
@@ -68,6 +68,7 @@ def write_ssh_command(address, user, password, command, procotol, cam_address):
         ssh.connect(address, ssh_port, user, password)
         stdin, stdout, stderr = ssh.exec_command(ssh_command)
         stdin.close()
+        
         lines = stdout.readlines()
         print(lines,type(lines))
     except Exception as e:

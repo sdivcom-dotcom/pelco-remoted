@@ -250,8 +250,9 @@ class Example(QWidget):
             pass
         transport = "ssh"
         left(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport)
-
+#сделать везде как тут
     def right_action(self):
+        transport = "ssh"
         val_mas = self.lines()
         ssh_address = val_mas[0]
         ssh_user = val_mas[1]
@@ -259,15 +260,23 @@ class Example(QWidget):
         val = self.checkbox.isChecked()
         if val is True:
             protocol = "d"
+            port = 1
+            baud = 2
+            address = 3
+            right(port, baud, address, protocol, ssh_address, ssh_user, ssh_password, transport)
         else:
             pass
         val2 = self.checkbox2.isChecked()
         if val2 is True:
             protocol = "p"
+            port = 1
+            baud = 2
+            address = 3
+            right(port, baud, address, protocol, ssh_address, ssh_user, ssh_password, transport)
         else:
             pass
-        transport = "ssh"
-        right(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport)
+        
+
 
     def send_action(self):
         val_mas = self.lines()
@@ -285,7 +294,7 @@ class Example(QWidget):
             protocol = "p"
         else:
             pass
-        random_command(com_port, com_baud, address, protocol, command, ssh_address, ssh_user, ssh_password, transport)
+        random_command(port, baud, address, procotol, ssh_address, ssh_user, ssh_password, transport)
 
 
 def main():
